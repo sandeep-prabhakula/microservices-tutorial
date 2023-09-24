@@ -1,0 +1,58 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/user-service
+    username: postgres
+    password: rohitman45*
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  application:
+    name: User-Service
+  config:
+    import: configserver:http://localhost:8085
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  # Circuit breaker
+  circuitbreaker:
+    instances:
+      RATING_HOTEL_BREAKER:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 100
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 60000
+        permitted-number-of-calls-in-half-open-state: 10
+        sliding-window-size: 100
+        sliding-window-type: COUNT_BASED
+  #Retry configuration
+  retry:
+    instances:
+      RATING_HOTEL_SERVICE:
+        max-attempts: 3
+        wait-duration: 5000
+  # Rate Limiter Configuration
+
+  ratelimiter:
+    instances:
+      RATING_HOTEL_LIMITER:
+        timeout-duration: 5000
+        limit-for-period: 50
+        limit-refresh-period: 5

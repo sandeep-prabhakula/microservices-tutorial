@@ -1,0 +1,10 @@
+server:
+  port: 8083
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://sandeepsandyo9o7o1:ro45.200.100@cluster0.fjfmmcp.mongodb.net/rating-microservice?retryWrites=true&w=majority
+  application:
+    name: RATING-SERVICE
+  config:
+    import: optional:configserver:http://localhost:8085
