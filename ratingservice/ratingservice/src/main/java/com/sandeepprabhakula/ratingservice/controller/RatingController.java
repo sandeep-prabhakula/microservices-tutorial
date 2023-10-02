@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class RatingController {
     private final RatingServiceImpl ratingService;
 
     @PostMapping("/add-rating")
+    @PreAuthorize("hasAuthority('Admin')")
     public ResponseEntity<Rating> create(@RequestBody Rating rating) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.save(rating));
     }
@@ -27,6 +29,7 @@ public class RatingController {
     }
 
     @GetMapping("/ratings-by-uid/{uid}")
+    @PreAuthorize("hasAuthority('SCOPE_internal') || hasAuthority('Admin')")
     public ResponseEntity<List<Rating>> getRatingsByUID(@PathVariable("uid") String uid) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getRatingByUserId(uid));
     }

@@ -5,3 +5,5 @@ eureka:
     # service registry should not become client itself
     register-with-eureka: false
     fetch-registry: false
+server:
+  port: 8761

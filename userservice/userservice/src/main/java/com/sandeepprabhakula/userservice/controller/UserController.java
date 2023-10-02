@@ -42,6 +42,7 @@ public class UserController {
 
     //fallback method of circuit breaker
     public Users ratingHotelFallback(String uid, Exception ex) {
+        ex.printStackTrace();
         System.out.println("Fallback executed service down : " + ex.getMessage());
         Users user = Users
                 .builder()

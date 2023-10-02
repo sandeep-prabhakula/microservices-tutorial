@@ -16,3 +16,7 @@ spring:
     name: HOTEL-SERVICE
   config:
     import: optional:configserver:http://localhost:8085
+okta:
+  oauth2:
+    issuer: https://dev-31816752.okta.com/oauth2/default
+    audience: api://default
